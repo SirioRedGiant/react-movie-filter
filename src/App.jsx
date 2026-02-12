@@ -18,6 +18,23 @@ export default function App() {
   //note LISTA --> stato della lista
   const [filteredFilm, setFilteredFilm] = useState(dvdFilms);
 
+  useEffect(() => {
+    //* Se l'utente ha scelto "Tutti i generi" (stringa vuota "") --> allora ripristina la lista
+    if (selectedGenre === "") {
+      setFilteredFilm(dvdFilms);
+    }
+    //* Altrimenti filtra il genere selezionato
+    else {
+      const nuoviFilmFiltrati = dvdFilms.filter(
+        (film) => film.genre === selectedGenre,
+      );
+      setFilteredFilm(nuoviFilmFiltrati);
+    }
+
+    // Il "Dependency Array" [selectedGenre] è fondamentale:
+    // dice a React di eseguire questa funzione solo quando quel valore cambia. Senza si aggiornerebbe ad ogni render dell'app
+  }, [selectedGenre]);
+
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">

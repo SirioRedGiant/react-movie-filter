@@ -1,16 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./assets/css/index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const dvdFilms = [
+  { title: "Inception", genre: "Fantascienza" },
+  { title: "Il Padrino", genre: "Thriller" },
+  { title: "Titanic", genre: "Romantico" },
+  { title: "Batman", genre: "Azione" },
+  { title: "Interstellar", genre: "Fantascienza" },
+  { title: "Pulp Fiction", genre: "Thriller" },
+];
+
 export default function App() {
-  const dvdFilms = [
-    { title: "Inception", genre: "Fantascienza" },
-    { title: "Il Padrino", genre: "Thriller" },
-    { title: "Titanic", genre: "Romantico" },
-    { title: "Batman", genre: "Azione" },
-    { title: "Interstellar", genre: "Fantascienza" },
-    { title: "Pulp Fiction", genre: "Thriller" },
-  ];
+  //note SELECT --> stato della select: Sezione filtro
+  const [selectedGenre, setSelectedGenre] = useState("");
+  console.log("genere:", selectedGenre);
+  //note LISTA --> stato della lista
+  const [filteredFilm, setFilteredFilm] = useState(dvdFilms);
 
   return (
     <div className="container mt-5">
@@ -22,7 +28,12 @@ export default function App() {
           <div className="card mb-4">
             <div className="card-body">
               <label className="form-label fw-bold">Genere film:</label>
-              <select className="form-select form-select-lg">
+              {/*//note collegamento stato alla select */}
+              <select
+                className="form-select form-select-lg"
+                value={selectedGenre}
+                onChange={(e) => setSelectedGenre(e.target.value)}
+              >
                 <option value="">Tutti i generi</option>
                 <option value="Fantascienza">Fantascienza</option>
                 <option value="Azione">Azione</option>
@@ -34,7 +45,8 @@ export default function App() {
 
           {/* Sezione Lista */}
           <ul className="list-group ">
-            {dvdFilms.map((dvdFilm, index) => (
+            {/*//note sostituire l'array fisso per renderlo dinamico  */}
+            {filteredFilm.map((dvdFilm, index) => (
               <li
                 key={index}
                 className="list-group-item d-flex justify-content-between align-items-center p-3"
